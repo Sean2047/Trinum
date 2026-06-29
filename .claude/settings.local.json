@@ -7,7 +7,12 @@
       "Bash(./gradlew test:*)",
       "Bash(powershell -Command \"[System.IO.File]::ReadAllBytes\\('C:/Trinum/WorkStatus.md'\\) | Select-Object -First 4 | ForEach-Object { '{0:X2}' -f $_ }\" 2>&1)",
       "Bash(powershell -Command \"$bytes = [System.IO.File]::ReadAllBytes\\('C:/Trinum/WorkStatus.md'\\); $bytes[0..3] | ForEach-Object { $_.ToString\\('X2'\\) }\")",
-      "Bash(powershell -Command \"\n\\\\$bytes = [System.IO.File]::ReadAllBytes\\('C:/Trinum/WorkStatus.md'\\)\n\\\\$bytes[0].ToString\\('X2'\\) + ' ' + \\\\$bytes[1].ToString\\('X2'\\) + ' ' + \\\\$bytes[2].ToString\\('X2'\\) + ' ' + \\\\$bytes[3].ToString\\('X2'\\)\n\")"
+      "Bash(powershell -Command \"\n\\\\$bytes = [System.IO.File]::ReadAllBytes\\('C:/Trinum/WorkStatus.md'\\)\n\\\\$bytes[0].ToString\\('X2'\\) + ' ' + \\\\$bytes[1].ToString\\('X2'\\) + ' ' + \\\\$bytes[2].ToString\\('X2'\\) + ' ' + \\\\$bytes[3].ToString\\('X2'\\)\n\")",
+      "Bash(powershell -Command \"\n\\\\$content = [System.IO.File]::ReadAllText\\('C:/Trinum/WorkStatus.md', [System.Text.Encoding]::Unicode\\)\n[System.IO.File]::WriteAllText\\('C:/Trinum/WorkStatus.md', \\\\$content, \\(New-Object System.Text.UTF8Encoding \\\\$false\\)\\)\n\")",
+      "Bash(powershell -Command \"\n\\\\$bytes = [System.IO.File]::ReadAllBytes\\('C:/Trinum/WorkStatus.md'\\)\n\\\\$bytes[0].ToString\\('X2'\\) + ' ' + \\\\$bytes[1].ToString\\('X2'\\) + ' ' + \\\\$bytes[2].ToString\\('X2'\\)\n\")",
+      "Bash(powershell -Command \"\n\\\\$files = @\\('C:/Trinum/detekt/config.yml'\\)\nforeach \\(\\\\$f in \\\\$files\\) {\n    \\\\$bytes = [System.IO.File]::ReadAllBytes\\(\\\\$f\\)\n    \\\\$f + ': ' + \\\\$bytes[0].ToString\\('X2'\\) + ' ' + \\\\$bytes[1].ToString\\('X2'\\) + ' ' + \\\\$bytes[2].ToString\\('X2'\\)\n}\n\")",
+      "Bash(./gradlew :app:test --tests \"dev.trinum.app.feature.calculator.*\")",
+      "Bash(./gradlew :app:testDebugUnitTest)"
     ]
   }
 }

@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import dev.trinum.app.feature.calculator.ui.CalculatorScreen
 
 @Composable
 fun AppNavGraph(navController: NavHostController) {
@@ -15,8 +16,7 @@ fun AppNavGraph(navController: NavHostController) {
         startDestination = Routes.Calculator.route
     ) {
         composable(Routes.Calculator.route) {
-            // Placeholder — implemented in TASK-002 (CalculatorScreen)
-            Box(modifier = Modifier.fillMaxSize())
+            CalculatorScreen()
         }
         composable(Routes.Converter.route) {
             // Placeholder — implemented in TASK-003 (ConverterScreen)
