@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:mvnrepository.com)",
+      "WebSearch",
+      "Bash(./gradlew test:*)",
+      "Bash(powershell -Command \"[System.IO.File]::ReadAllBytes\\('C:/Trinum/WorkStatus.md'\\) | Select-Object -First 4 | ForEach-Object { '{0:X2}' -f $_ }\" 2>&1)",
+      "Bash(powershell -Command \"$bytes = [System.IO.File]::ReadAllBytes\\('C:/Trinum/WorkStatus.md'\\); $bytes[0..3] | ForEach-Object { $_.ToString\\('X2'\\) }\")",
+      "Bash(powershell -Command \"\n\\\\$bytes = [System.IO.File]::ReadAllBytes\\('C:/Trinum/WorkStatus.md'\\)\n\\\\$bytes[0].ToString\\('X2'\\) + ' ' + \\\\$bytes[1].ToString\\('X2'\\) + ' ' + \\\\$bytes[2].ToString\\('X2'\\) + ' ' + \\\\$bytes[3].ToString\\('X2'\\)\n\")"
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+# Trinum ProGuard / R8 rules — owned by TASK-001 (Foundation Task). Feature Tasks must not modify.
+
+# Hilt
+-keep class dagger.hilt.** { *; }
+-keep @dagger.hilt.android.HiltAndroidApp class * { *; }
+-keep @dagger.hilt.android.AndroidEntryPoint class * { *; }
+-keepclassmembers class * { @dagger.hilt.* <methods>; }
+
+# Room entities — @Keep applied per entity (belt-and-suspenders)
+-keep @androidx.room.Entity class * { *; }
+-keep @androidx.room.Dao class * { *; }
+-keep @androidx.room.Database class * { *; }
+
+# exp4j — reflection-based function lookup
+-keep class net.objecthunter.exp4j.** { *; }
+
+# Kotlin coroutines
+-keep class kotlinx.coroutines.** { *; }
+-keepclassmembernames class kotlinx.** { volatile <fields>; }
+
+# Timber
+-dontwarn org.jetbrains.annotations.**

@@ -1,0 +1,21 @@
+build:
+  maxIssues: 0
+
+naming:
+  FunctionNaming:
+    active: true
+    # Composable functions use PascalCase by convention — allow it
+    ignoreAnnotated:
+      - 'Composable'
+
+style:
+  MagicNumber:
+    active: true
+    # Color hex values in theme files are legitimate named constants
+    ignoreHashCodeFunction: true
+    ignorePropertyDeclaration: true
+    ignoreLocalVariableDeclaration: false
+    ignoreNamedArgument: true
+    ignoreEnums: true
+    ignoreRanges: false
+    ignoreExtensionFunctions: true
