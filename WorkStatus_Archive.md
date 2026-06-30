@@ -77,3 +77,35 @@ Archived: 2026-06-29
 |------|------|-------------|
 | 2026-06-28 | TASK-001 | Multi-module structure, domain models, DAOs, Room DB, repositories, Hilt DI, navigation scaffold, UI contracts, theme, DAO tests, documentation; CI PASS |
 | 2026-06-28 | TASK-002 | EvaluateExpressionUseCase, CalculatorViewModel, CalculatorScreen (with CalculatorContent refactor), UseCase+ViewModel+UI tests, AppNavGraph wired, INV-005 added; CI PASS |
+| 2026-06-29 | TASK-003 | ConvertUnitUseCase, ConverterViewModel (single-update), ConverterScreen, 3 test files, AppNavGraph wired; CI PASS confirmed |
+
+---
+
+## Task Progress — Sprint 1 (archived)
+
+| ID | Description | Status | Created | Updated |
+| ---- | ------------- | -------- | --------- | --------- |
+| TASK-001 | Foundation Task | Done | 2026-06-28 | 2026-06-28 |
+| TASK-002 | Calculator Feature | Done | 2026-06-28 | 2026-06-28 |
+| TASK-003 | Unit Converter Feature | Done | 2026-06-28 | 2026-06-29 |
+
+## File Registry — TASK-003 (Unit Converter Feature) — Done
+
+| Path | Owning Task | Status | Date |
+| ------ | ------------- | -------- | ------ |
+| docs/tasks/TASK-003-unit-converter.md | TASK-003 | Created | 2026-06-29 |
+| app/src/main/java/dev/trinum/app/feature/converter/ConvertUnitUseCase.kt | TASK-003 | Created | 2026-06-29 |
+| app/src/main/java/dev/trinum/app/feature/converter/ConverterViewModel.kt | TASK-003 | Created | 2026-06-29 |
+| app/src/main/java/dev/trinum/app/feature/converter/ui/ConverterScreen.kt | TASK-003 | Created | 2026-06-29 |
+| app/src/test/java/dev/trinum/app/feature/converter/ConvertUnitUseCaseTest.kt | TASK-003 | Created | 2026-06-29 |
+| app/src/test/java/dev/trinum/app/feature/converter/ConverterViewModelTest.kt | TASK-003 | Created | 2026-06-29 |
+| app/src/androidTest/java/dev/trinum/app/feature/converter/ui/ConverterScreenTest.kt | TASK-003 | Created | 2026-06-29 |
+| app/src/main/java/dev/trinum/app/navigation/AppNavGraph.kt | TASK-003 | Modified | 2026-06-29 |
+
+## Review History — Sprint 1 (archived)
+
+| Task ID | Review Time | Result | Issues | Reviewer |
+| ------- | ----------- | ------ | ------ | -------- |
+| TASK-001 | 2026-06-28 | APPROVED | none | Reviewer Agent |
+| TASK-002 | 2026-06-28 | APPROVED (Round 2) | R4/R7 fixed in re-review | Reviewer Agent |
+| TASK-003 | 2026-06-29 | APPROVED (Round 2) | R4 test fixed (Turbine subscription); R6 CATALOG visibility + detekt fixes | Reviewer Agent |

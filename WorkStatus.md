@@ -2,33 +2,22 @@
 Last updated: 2026-06-30 | Current Sprint: 3
 
 ## Current Status
-Next Task: CI gate + review for TASK-006 and TASK-007
+Next Task: Sprint 3 complete — TASK-006 and TASK-007 Done; archive needed before Sprint 4
 Blockers: None
-Note: File Registry for TASK-001/002 archived to WorkStatus_Archive.md (P9 compliance, 2026-06-29)
+Note: Sprint 1 records (TASK-001/002/003 progress, file registry, review history) archived to WorkStatus_Archive.md (P9 compliance, 2026-06-30)
 
 ## Task Progress
 | ID | Description | Status | Created | Updated |
 | ---- | ------------- | -------- | --------- | --------- |
-| TASK-001 | Foundation Task | Done | 2026-06-28 | 2026-06-28 |
-| TASK-002 | Calculator Feature | Done | 2026-06-28 | 2026-06-28 |
-| TASK-003 | Unit Converter Feature | Done | 2026-06-28 | 2026-06-29 |
 | TASK-004 | Table Calculator Feature | Done | 2026-06-28 | 2026-06-29 |
 | TASK-005 | Navigation Integration + Sprint Review | Done | 2026-06-28 | 2026-06-29 |
-| TASK-006 | Table Grid Headers | In Review | 2026-06-30 | 2026-06-30 |
-| TASK-007 | Calculator Restore-From-History | In Review | 2026-06-30 | 2026-06-30 |
+| TASK-006 | Table Grid Headers | Done | 2026-06-30 | 2026-06-30 |
+| TASK-007 | Calculator Restore-From-History | Done | 2026-06-30 | 2026-06-30 |
 
-## File Registry (Sprint 1 active — TASK-003+)
+## File Registry (Sprint 2+ active — TASK-004+)
 | Path | Owning Task | Status | Date |
 | ------ | ------------- | -------- | ------ |
-| docs/tasks/TASK-003-unit-converter.md | TASK-003 | Created | 2026-06-29 |
 | docs/tasks/TASK-004-table-calculator.md | TASK-004 | Created | 2026-06-29 |
-| app/src/main/java/dev/trinum/app/feature/converter/ConvertUnitUseCase.kt | TASK-003 | Created | 2026-06-29 |
-| app/src/main/java/dev/trinum/app/feature/converter/ConverterViewModel.kt | TASK-003 | Created | 2026-06-29 |
-| app/src/main/java/dev/trinum/app/feature/converter/ui/ConverterScreen.kt | TASK-003 | Created | 2026-06-29 |
-| app/src/test/java/dev/trinum/app/feature/converter/ConvertUnitUseCaseTest.kt | TASK-003 | Created | 2026-06-29 |
-| app/src/test/java/dev/trinum/app/feature/converter/ConverterViewModelTest.kt | TASK-003 | Created | 2026-06-29 |
-| app/src/androidTest/java/dev/trinum/app/feature/converter/ui/ConverterScreenTest.kt | TASK-003 | Created | 2026-06-29 |
-| app/src/main/java/dev/trinum/app/navigation/AppNavGraph.kt | TASK-003 | Modified | 2026-06-29 |
 | app/src/main/java/dev/trinum/app/feature/table/EvaluateTableUseCase.kt | TASK-004 | Created | 2026-06-29 |
 | app/src/main/java/dev/trinum/app/feature/table/TableViewModel.kt | TASK-004 | Created | 2026-06-29 |
 | app/src/main/java/dev/trinum/app/feature/table/ui/TableScreen.kt | TASK-004 | Created | 2026-06-29 |
@@ -43,6 +32,12 @@ Note: File Registry for TASK-001/002 archived to WorkStatus_Archive.md (P9 compl
 | app/src/main/java/dev/trinum/app/MainActivity.kt | TASK-005 | Modified | 2026-06-29 |
 | gradle/libs.versions.toml | TASK-005 | Modified | 2026-06-29 |
 | app/build.gradle.kts | TASK-005 | Modified | 2026-06-29 |
+| app/src/main/java/dev/trinum/app/feature/table/ui/TableScreen.kt | TASK-006 | Modified | 2026-06-30 |
+| app/src/androidTest/java/dev/trinum/app/feature/table/ui/TableScreenTest.kt | TASK-006 | Modified | 2026-06-30 |
+| app/src/main/java/dev/trinum/app/feature/calculator/ui/CalculatorUiContracts.kt | TASK-007 | Modified | 2026-06-30 |
+| app/src/main/java/dev/trinum/app/feature/calculator/CalculatorViewModel.kt | TASK-007 | Modified | 2026-06-30 |
+| app/src/main/java/dev/trinum/app/feature/calculator/ui/CalculatorScreen.kt | TASK-007 | Modified | 2026-06-30 |
+| app/src/test/java/dev/trinum/app/feature/calculator/CalculatorViewModelTest.kt | TASK-007 | Modified | 2026-06-30 |
 
 ## DAO Addition Log
 | Method Signature | DAO | Source Task | Date |
@@ -105,22 +100,18 @@ Note: File Registry for TASK-001/002 archived to WorkStatus_Archive.md (P9 compl
 ## Review Queue
 | Task ID | Handoff Time | Developer Declaration | Status |
 | ------- | ------------ | -------------------- | ------ |
-| TASK-001 | 2026-06-28 | CI PASS — ./gradlew test detekt ktlintCheck lint | Done |
-| TASK-002 | 2026-06-28 | CI PASS — ./gradlew test detekt ktlintCheck lint | Done |
-| TASK-003 | 2026-06-29 | CI PASS — ./gradlew test detekt ktlintCheck lint | Done |
 | TASK-004 | 2026-06-29 | CI PASS — ./gradlew test detekt ktlintCheck lint | Done |
 | TASK-005 | 2026-06-29 | CI PASS — ./gradlew test detekt ktlintCheck lint | Done |
-| TASK-006 | 2026-06-30 | CI PASS — ./gradlew test detekt ktlintCheck lint | Pending |
-| TASK-007 | 2026-06-30 | CI PASS — ./gradlew test detekt ktlintCheck lint | Pending |
+| TASK-006 | 2026-06-30 | CI PASS — ./gradlew test detekt ktlintCheck lint | Done |
+| TASK-007 | 2026-06-30 | CI PASS — ./gradlew test detekt ktlintCheck lint | Done |
 
 ## Review Log
 | Task ID | Review Time | Result | Issues | Reviewer |
 | ------- | ----------- | ------ | ------ | -------- |
-| TASK-001 | 2026-06-28 | APPROVED | none | Reviewer Agent |
-| TASK-002 | 2026-06-28 | APPROVED (Round 2) | R4/R7 fixed in re-review | Reviewer Agent |
-| TASK-003 | 2026-06-29 | APPROVED (Round 2) | R4 test fixed (Turbine subscription); R6 CATALOG visibility + detekt fixes (MagicNumber, ReturnCount, LongParameterList) | Reviewer Agent |
 | TASK-004 | 2026-06-29 | APPROVED | Non-blocking notes: P7 DEC entry for Class E instance; INV-005 currency process note | Reviewer Agent |
 | TASK-005 | 2026-06-29 | APPROVED (Round 2) | R4 fixed: assertIsSelected() on merged semantics node | Reviewer Agent |
+| TASK-006 | 2026-06-30 | APPROVED | Non-blocking: File Registry missing TASK-006 Modified entries (fixed) | Reviewer Agent |
+| TASK-007 | 2026-06-30 | APPROVED | Non-blocking: File Registry missing TASK-007 Modified entries (fixed) | Reviewer Agent |
 
 ## Evidence Budget Log
 | Task ID | Context Est. | Over Budget | Action |
