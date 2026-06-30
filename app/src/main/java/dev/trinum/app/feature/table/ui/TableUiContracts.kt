@@ -10,7 +10,8 @@ data class TableUiState(
     val selectedCell: Pair<Int, Int>? = null,
     val savedTables: List<SavedTable> = emptyList(),
     val currentTableId: Long? = null,
-    val currentTableName: String = ""
+    val currentTableName: String = "",
+    val evaluatedResults: Map<Pair<Int, Int>, String> = emptyMap(),
 )
 
 sealed class TableUiEffect {

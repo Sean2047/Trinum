@@ -90,7 +90,7 @@ class TableViewModelTest {
     }
 
     @Test
-    fun `evaluate all replaces formula content with result`() = runTest {
+    fun `evaluate all populates evaluatedResults and preserves formula content`() = runTest {
         val vm = createVm()
         vm.uiState.test {
             awaitItem()
@@ -102,7 +102,25 @@ class TableViewModelTest {
             awaitItem()
             vm.onAction(TableUiAction.EvaluateAll)
             val state = awaitItem()
-            assertEquals("30", state.cells[0 to 2]?.content)
+            assertEquals("=A1+B1", state.cells[0 to 2]?.content)
+            assertTrue(state.cells[0 to 2]?.isFormula == true)
+            assertEquals("30", state.evaluatedResults[0 to 2])
+            cancelAndConsumeRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `editing a cell after evaluate clears evaluated results`() = runTest {
+        val vm = createVm()
+        vm.uiState.test {
+            awaitItem()
+            vm.onAction(TableUiAction.UpdateCellContent(row = 0, column = 0, content = "5"))
+            awaitItem()
+            vm.onAction(TableUiAction.EvaluateAll)
+            awaitItem()
+            vm.onAction(TableUiAction.UpdateCellContent(row = 0, column = 0, content = "6"))
+            val state = awaitItem()
+            assertTrue(state.evaluatedResults.isEmpty())
             cancelAndConsumeRemainingEvents()
         }
     }

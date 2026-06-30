@@ -2,7 +2,7 @@
 Last updated: 2026-06-29 | Current Sprint: 1
 
 ## Current Status
-Next Task: none — Sprint 1 complete
+Next Task: none — TD-002 closed; TD-001 and LocalClipboardManager deprecation remain open
 Blockers: None
 Note: File Registry for TASK-001/002 archived to WorkStatus_Archive.md (P9 compliance, 2026-06-29)
 
@@ -81,7 +81,7 @@ Note: File Registry for TASK-001/002 archived to WorkStatus_Archive.md (P9 compl
 | TD-ID | Type | Description | Impact | Owner Task | Target Sprint | Status |
 | ----- | ---- | ----------- | ------ | ---------- | ------------- | ------ |
 | TD-001 | DEPRECATION | KSP 2.2.10-2.0.2 uses kotlin.sourceSets (banned by AGP 9); suppressed via gradle.properties. Upgrade to KSP 2.3.x to remove workaround | Build warning | TASK-001 | Sprint 2 | Open |
-| TD-002 | INVARIANT_TENSION | EvaluateAll in TableViewModel replaces formula content with numeric result while isFormula=true is preserved, creating INV-004 inconsistency in-memory; persisted if user saves after evaluation | Data integrity risk | TASK-004 | Sprint 2 | Open |
+| TD-002 | INVARIANT_TENSION | EvaluateAll in TableViewModel replaces formula content with numeric result while isFormula=true is preserved, creating INV-004 inconsistency in-memory; persisted if user saves after evaluation | Data integrity risk | TASK-004 | Sprint 2 | Closed 2026-06-29 |
 
 ## Verified Assumptions
 | Assumption | Status | Source | Verified Sprint |

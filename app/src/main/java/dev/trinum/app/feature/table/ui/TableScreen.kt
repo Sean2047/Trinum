@@ -108,7 +108,7 @@ private fun CellGrid(
                 for (col in 0 until uiState.columns) {
                     val coords = row to col
                     CellBox(
-                        content = uiState.cells[coords]?.content ?: "",
+                        content = uiState.evaluatedResults[coords] ?: uiState.cells[coords]?.content ?: "",
                         isSelected = uiState.selectedCell == coords,
                         onClick = { onCellTap(row, col) },
                         modifier = Modifier.weight(1f),

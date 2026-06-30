@@ -36,6 +36,7 @@ class TableViewModel @Inject constructor(
         val currentTableId: Long? = null,
         val currentTableName: String = "",
         val createdAt: Long = 0L,
+        val evaluatedResults: Map<Pair<Int, Int>, String> = emptyMap(),
     )
 
     private val _localState = MutableStateFlow(LocalState())
@@ -54,6 +55,7 @@ class TableViewModel @Inject constructor(
             savedTables = saved,
             currentTableId = local.currentTableId,
             currentTableName = local.currentTableName,
+            evaluatedResults = local.evaluatedResults,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000L), TableUiState())
 
@@ -88,7 +90,7 @@ class TableViewModel @Inject constructor(
                 content = content,
                 isFormula = isFormula,
             )
-        _localState.update { it.copy(cells = it.cells + (coords to updated)) }
+        _localState.update { it.copy(cells = it.cells + (coords to updated), evaluatedResults = emptyMap()) }
     }
 
     private fun evaluateAll() {
@@ -99,10 +101,7 @@ class TableViewModel @Inject constructor(
             columns = state.columns,
         )
         evaluateTable(intent).onSuccess { results ->
-            val updatedCells = state.cells.mapValues { (coords, cell) ->
-                cell.copy(content = results[coords] ?: cell.content)
-            }
-            _localState.update { it.copy(cells = updatedCells) }
+            _localState.update { it.copy(evaluatedResults = results) }
         }.onFailure {
             viewModelScope.launch { _effects.send(TableUiEffect.ShowError("Evaluation failed")) }
         }
