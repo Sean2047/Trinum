@@ -1,13 +1,12 @@
 package dev.trinum.app.navigation
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import dev.trinum.app.feature.calculator.ui.CalculatorScreen
+import dev.trinum.app.feature.converter.ui.ConverterScreen
+import dev.trinum.app.feature.table.ui.TableScreen
 
 @Composable
 fun AppNavGraph(navController: NavHostController) {
@@ -19,12 +18,10 @@ fun AppNavGraph(navController: NavHostController) {
             CalculatorScreen()
         }
         composable(Routes.Converter.route) {
-            // Placeholder — implemented in TASK-003 (ConverterScreen)
-            Box(modifier = Modifier.fillMaxSize())
+            ConverterScreen()
         }
         composable(Routes.Table.route) {
-            // Placeholder — implemented in TASK-004 (TableScreen)
-            Box(modifier = Modifier.fillMaxSize())
+            TableScreen()
         }
     }
 }
