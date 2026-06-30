@@ -1,8 +1,8 @@
 # WorkStatus
-Last updated: 2026-06-29 | Current Sprint: 1
+Last updated: 2026-06-29 | Current Sprint: 2
 
 ## Current Status
-Next Task: none — TD-001 and TD-002 closed; LocalClipboardManager deprecation remains open
+Next Task: none — Sprint 2 complete; all TDs closed, zero build warnings
 Blockers: None
 Note: File Registry for TASK-001/002 archived to WorkStatus_Archive.md (P9 compliance, 2026-06-29)
 
@@ -106,7 +106,7 @@ Note: File Registry for TASK-001/002 archived to WorkStatus_Archive.md (P9 compl
 | TASK-002 | 2026-06-28 | CI PASS — ./gradlew test detekt ktlintCheck lint | Done |
 | TASK-003 | 2026-06-29 | CI PASS — ./gradlew test detekt ktlintCheck lint | Done |
 | TASK-004 | 2026-06-29 | CI PASS — ./gradlew test detekt ktlintCheck lint | Done |
-| TASK-005 | 2026-06-29 | CI gate required before Done status | APPROVED (Round 2) |
+| TASK-005 | 2026-06-29 | CI PASS — ./gradlew test detekt ktlintCheck lint | Done |
 
 ## Review Log
 | Task ID | Review Time | Result | Issues | Reviewer |
@@ -130,3 +130,6 @@ Note: File Registry for TASK-001/002 archived to WorkStatus_Archive.md (P9 compl
 | 2026-06-29 | TASK-003 | ConvertUnitUseCase, ConverterViewModel (single-update), ConverterScreen, 3 test files, AppNavGraph wired; CI PASS confirmed |
 | 2026-06-29 | TASK-004 | EvaluateTableUseCase (A1-ref DFS resolver), TableViewModel (combine pattern, companion helpers), TableScreen (CellGrid+CellEditBar+SavedTablesList), 3 test files, AppNavGraph TableScreen wired; CI PASS confirmed |
 | 2026-06-29 | TASK-005 | MainScreen (3-tab BottomNavBar, consumeWindowInsets), MainScreenTest (3 Compose tests), MainActivity wired; material-icons-extended added (DEC-017); TD-002 logged (INV-004 tension from EvaluateAll); Sprint 1 Review: INV-001–005 spot-checked, module DAG unchanged, Fan-In/Out within threshold, TD-001/002 noted |
+| 2026-06-29 | TD-002 fix | evaluatedResults map added to LocalState+TableUiState; evaluateAll() no longer overwrites cell.content; CellGrid renders evaluatedResults??cell.content; TableViewModelTest corrected + stale-clear test added; INV-004 enforced |
+| 2026-06-29 | TD-001 fix | KSP upgraded 2.2.10-2.0.2→2.3.9 (DEC-018); android.disallowKotlinSourceSets=false removed from gradle.properties; configure-phase warning eliminated |
+| 2026-06-29 | Deprecation fix | LocalClipboardManager→LocalClipboard in CalculatorScreen, ConverterScreen, TableScreen; setText(AnnotatedString)→setClipEntry(ClipEntry(ClipData.newPlainText)); zero compiler warnings |
