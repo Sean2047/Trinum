@@ -1,8 +1,8 @@
 # WorkStatus
-Last updated: 2026-06-30 | Current Sprint: 3
+Last updated: 2026-06-30 | Current Sprint: 4
 
 ## Current Status
-Next Task: Sprint 3 complete — TASK-006 and TASK-007 Done; archive needed before Sprint 4
+Next Task: TASK-008 — Table Copy Cell (TD-003 resolution)
 Blockers: None
 Note: Sprint 1 records (TASK-001/002/003 progress, file registry, review history) archived to WorkStatus_Archive.md (P9 compliance, 2026-06-30)
 
@@ -13,11 +13,13 @@ Note: Sprint 1 records (TASK-001/002/003 progress, file registry, review history
 | TASK-005 | Navigation Integration + Sprint Review | Done | 2026-06-28 | 2026-06-29 |
 | TASK-006 | Table Grid Headers | Done | 2026-06-30 | 2026-06-30 |
 | TASK-007 | Calculator Restore-From-History | Done | 2026-06-30 | 2026-06-30 |
+| TASK-008 | Table Copy Cell (TD-003) | Pending | 2026-06-30 | 2026-06-30 |
 
 ## File Registry (Sprint 2+ active — TASK-004+)
 | Path | Owning Task | Status | Date |
 | ------ | ------------- | -------- | ------ |
 | docs/tasks/TASK-004-table-calculator.md | TASK-004 | Created | 2026-06-29 |
+| docs/tasks/TASK-008-table-copy-cell.md | TASK-008 | Created | 2026-06-30 |
 | app/src/main/java/dev/trinum/app/feature/table/EvaluateTableUseCase.kt | TASK-004 | Created | 2026-06-29 |
 | app/src/main/java/dev/trinum/app/feature/table/TableViewModel.kt | TASK-004 | Created | 2026-06-29 |
 | app/src/main/java/dev/trinum/app/feature/table/ui/TableScreen.kt | TASK-004 | Created | 2026-06-29 |
