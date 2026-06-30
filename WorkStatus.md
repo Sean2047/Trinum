@@ -2,7 +2,7 @@
 Last updated: 2026-06-29 | Current Sprint: 1
 
 ## Current Status
-Next Task: none — TD-002 closed; TD-001 and LocalClipboardManager deprecation remain open
+Next Task: none — TD-001 and TD-002 closed; LocalClipboardManager deprecation remains open
 Blockers: None
 Note: File Registry for TASK-001/002 archived to WorkStatus_Archive.md (P9 compliance, 2026-06-29)
 
@@ -76,11 +76,12 @@ Note: File Registry for TASK-001/002 archived to WorkStatus_Archive.md (P9 compl
 | DEC-015 | 2026-06-29 | Temperature conversion handled as special case in ConvertUnitUseCase (Kelvin intermediate), not via UnitDefinition.toBaseRatio | toBaseRatio only supports linear conversion; temperature needs affine (ratio+offset); modifying domain model requires Foundation Task authority | app/feature/converter/ConvertUnitUseCase.kt | Closed |
 | DEC-016 | 2026-06-29 | ConverterViewModel uses compute-then-update pattern (single _state.update per action, no recalculate()) | Two-phase reset-then-compute emits intermediate result="" state; Turbine tests capture it; single-update eliminates race and is architecturally cleaner | app/feature/converter/ConverterViewModel.kt | Closed |
 | DEC-017 | 2026-06-29 | material-icons-extended added to :app (BOM-managed, no version pin) | Bottom nav requires Calculate/SwapHoriz/GridOn icons not available in material-icons-core; P0.3 Upgrade Task waived — same-BOM first-party artifact with zero version conflict risk | gradle/libs.versions.toml, app/build.gradle.kts | Closed |
+| DEC-018 | 2026-06-29 | KSP upgraded from 2.2.10-2.0.2 to 2.3.9; android.disallowKotlinSourceSets=false removed from gradle.properties | KSP 2.3.x decoupled versioning from Kotlin; no longer registers sources via kotlin.sourceSets; workaround no longer needed | gradle/libs.versions.toml, gradle.properties | Closed |
 
 ## Technical Debt
 | TD-ID | Type | Description | Impact | Owner Task | Target Sprint | Status |
 | ----- | ---- | ----------- | ------ | ---------- | ------------- | ------ |
-| TD-001 | DEPRECATION | KSP 2.2.10-2.0.2 uses kotlin.sourceSets (banned by AGP 9); suppressed via gradle.properties. Upgrade to KSP 2.3.x to remove workaround | Build warning | TASK-001 | Sprint 2 | Open |
+| TD-001 | DEPRECATION | KSP 2.2.10-2.0.2 uses kotlin.sourceSets (banned by AGP 9); suppressed via gradle.properties. Upgrade to KSP 2.3.x to remove workaround | Build warning | TASK-001 | Sprint 2 | Closed 2026-06-29 |
 | TD-002 | INVARIANT_TENSION | EvaluateAll in TableViewModel replaces formula content with numeric result while isFormula=true is preserved, creating INV-004 inconsistency in-memory; persisted if user saves after evaluation | Data integrity risk | TASK-004 | Sprint 2 | Closed 2026-06-29 |
 
 ## Verified Assumptions
