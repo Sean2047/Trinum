@@ -167,6 +167,22 @@ class CalculatorViewModelTest {
     }
 
     @Test
+    fun `restore history entry sets expression and result`() = runTest {
+        val repo = FakeHistoryRepository()
+        repo.seedEntry(HistoryEntry(id = 1L, expression = "3*4", result = "12", timestamp = 0L))
+        val vm = createVm(repo)
+        vm.uiState.test {
+            awaitItem() // initial state with seeded history
+            vm.onAction(CalculatorUiAction.RestoreHistoryEntry(1L))
+            val state = awaitItem()
+            assertEquals("3*4", state.expression)
+            assertEquals("12", state.result)
+            assertFalse(state.isError)
+            cancelAndConsumeRemainingEvents()
+        }
+    }
+
+    @Test
     fun `delete entry removes it from repository`() = runTest {
         val repo = FakeHistoryRepository()
         repo.seedEntry(HistoryEntry(id = 1L, expression = "1+1", result = "2", timestamp = 0L))

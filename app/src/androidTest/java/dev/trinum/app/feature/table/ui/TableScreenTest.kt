@@ -62,6 +62,21 @@ class TableScreenTest {
     }
 
     @Test
+    fun column_and_row_headers_are_displayed() {
+        composeTestRule.setContent {
+            TableContent(
+                uiState = TableUiState(),
+                onAction = {},
+                snackbarHostState = remember { SnackbarHostState() },
+            )
+        }
+        composeTestRule.onNodeWithText("A").assertIsDisplayed()
+        composeTestRule.onNodeWithText("E").assertIsDisplayed()
+        composeTestRule.onNodeWithText("1").assertIsDisplayed()
+        composeTestRule.onNodeWithText("5").assertIsDisplayed()
+    }
+
+    @Test
     fun table_name_is_displayed_in_text_field() {
         composeTestRule.setContent {
             TableContent(

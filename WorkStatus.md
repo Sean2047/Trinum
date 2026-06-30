@@ -1,8 +1,8 @@
 # WorkStatus
-Last updated: 2026-06-29 | Current Sprint: 2
+Last updated: 2026-06-30 | Current Sprint: 3
 
 ## Current Status
-Next Task: none — Sprint 2 complete; all TDs closed, zero build warnings
+Next Task: CI gate + review for TASK-006 and TASK-007
 Blockers: None
 Note: File Registry for TASK-001/002 archived to WorkStatus_Archive.md (P9 compliance, 2026-06-29)
 
@@ -14,6 +14,8 @@ Note: File Registry for TASK-001/002 archived to WorkStatus_Archive.md (P9 compl
 | TASK-003 | Unit Converter Feature | Done | 2026-06-28 | 2026-06-29 |
 | TASK-004 | Table Calculator Feature | Done | 2026-06-28 | 2026-06-29 |
 | TASK-005 | Navigation Integration + Sprint Review | Done | 2026-06-28 | 2026-06-29 |
+| TASK-006 | Table Grid Headers | In Review | 2026-06-30 | 2026-06-30 |
+| TASK-007 | Calculator Restore-From-History | In Review | 2026-06-30 | 2026-06-30 |
 
 ## File Registry (Sprint 1 active — TASK-003+)
 | Path | Owning Task | Status | Date |
@@ -83,6 +85,7 @@ Note: File Registry for TASK-001/002 archived to WorkStatus_Archive.md (P9 compl
 | ----- | ---- | ----------- | ------ | ---------- | ------------- | ------ |
 | TD-001 | DEPRECATION | KSP 2.2.10-2.0.2 uses kotlin.sourceSets (banned by AGP 9); suppressed via gradle.properties. Upgrade to KSP 2.3.x to remove workaround | Build warning | TASK-001 | Sprint 2 | Closed 2026-06-29 |
 | TD-002 | INVARIANT_TENSION | EvaluateAll in TableViewModel replaces formula content with numeric result while isFormula=true is preserved, creating INV-004 inconsistency in-memory; persisted if user saves after evaluation | Data integrity risk | TASK-004 | Sprint 2 | Closed 2026-06-29 |
+| TD-003 | DEAD_CODE | TableUiEffect.CopyToClipboard is wired in TableScreen but TableViewModel never sends it; no CopyCell action exists | Dead UX path | TASK-004 | Sprint 4 | Open |
 
 ## Verified Assumptions
 | Assumption | Status | Source | Verified Sprint |
@@ -107,6 +110,8 @@ Note: File Registry for TASK-001/002 archived to WorkStatus_Archive.md (P9 compl
 | TASK-003 | 2026-06-29 | CI PASS — ./gradlew test detekt ktlintCheck lint | Done |
 | TASK-004 | 2026-06-29 | CI PASS — ./gradlew test detekt ktlintCheck lint | Done |
 | TASK-005 | 2026-06-29 | CI PASS — ./gradlew test detekt ktlintCheck lint | Done |
+| TASK-006 | 2026-06-30 | CI PASS — ./gradlew test detekt ktlintCheck lint | Pending |
+| TASK-007 | 2026-06-30 | CI PASS — ./gradlew test detekt ktlintCheck lint | Pending |
 
 ## Review Log
 | Task ID | Review Time | Result | Issues | Reviewer |
@@ -133,3 +138,5 @@ Note: File Registry for TASK-001/002 archived to WorkStatus_Archive.md (P9 compl
 | 2026-06-29 | TD-002 fix | evaluatedResults map added to LocalState+TableUiState; evaluateAll() no longer overwrites cell.content; CellGrid renders evaluatedResults??cell.content; TableViewModelTest corrected + stale-clear test added; INV-004 enforced |
 | 2026-06-29 | TD-001 fix | KSP upgraded 2.2.10-2.0.2→2.3.9 (DEC-018); android.disallowKotlinSourceSets=false removed from gradle.properties; configure-phase warning eliminated |
 | 2026-06-29 | Deprecation fix | LocalClipboardManager→LocalClipboard in CalculatorScreen, ConverterScreen, TableScreen; setText(AnnotatedString)→setClipEntry(ClipEntry(ClipData.newPlainText)); zero compiler warnings |
+| 2026-06-30 | TASK-006 | HeaderCell composable added; CellGrid gains header row (A–E) + row index column (1–5); column_and_row_headers_are_displayed test added to TableScreenTest |
+| 2026-06-30 | TASK-007 | RestoreHistoryEntry(id) action added to CalculatorUiAction; restoreEntry() in CalculatorViewModel reads from uiState.value.history; HistoryItem made clickable; restore test added to CalculatorViewModelTest; TD-003 logged |

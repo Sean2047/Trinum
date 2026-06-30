@@ -94,6 +94,7 @@ internal fun CalculatorContent(
                 HistorySection(
                     history = uiState.history,
                     onDelete = { onAction(CalculatorUiAction.DeleteHistoryEntry(it)) },
+                    onRestore = { onAction(CalculatorUiAction.RestoreHistoryEntry(it)) },
                     onClearAll = { onAction(CalculatorUiAction.ClearHistory) },
                     modifier = Modifier.fillMaxWidth().weight(HISTORY_WEIGHT),
                 )
@@ -190,6 +191,7 @@ private fun CalcButton(
 private fun HistorySection(
     history: List<HistoryEntry>,
     onDelete: (Long) -> Unit,
+    onRestore: (Long) -> Unit,
     onClearAll: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -205,7 +207,11 @@ private fun HistorySection(
         HorizontalDivider()
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             items(history, key = { it.id }) { entry ->
-                HistoryItem(entry = entry, onDelete = { onDelete(entry.id) })
+                HistoryItem(
+                    entry = entry,
+                    onDelete = { onDelete(entry.id) },
+                    onRestore = { onRestore(entry.id) },
+                )
                 HorizontalDivider()
             }
         }
@@ -216,10 +222,14 @@ private fun HistorySection(
 private fun HistoryItem(
     entry: HistoryEntry,
     onDelete: () -> Unit,
+    onRestore: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
-        modifier = modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .clickable(onClick = onRestore)
+            .padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {

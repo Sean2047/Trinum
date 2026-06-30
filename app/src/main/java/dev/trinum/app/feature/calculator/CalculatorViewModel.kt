@@ -56,6 +56,7 @@ class CalculatorViewModel @Inject constructor(
             CalculatorUiAction.Evaluate -> evaluate()
             CalculatorUiAction.CopyResult -> copyResult()
             is CalculatorUiAction.DeleteHistoryEntry -> deleteEntry(action.id)
+            is CalculatorUiAction.RestoreHistoryEntry -> restoreEntry(action.id)
             CalculatorUiAction.ClearHistory -> clearHistory()
         }
     }
@@ -100,6 +101,11 @@ class CalculatorViewModel @Inject constructor(
 
     private fun deleteEntry(id: Long) {
         viewModelScope.launch { historyRepository.deleteById(id) }
+    }
+
+    private fun restoreEntry(id: Long) {
+        val entry = uiState.value.history.find { it.id == id } ?: return
+        _localState.update { it.copy(expression = entry.expression, result = entry.result, isError = false) }
     }
 
     private fun clearHistory() {

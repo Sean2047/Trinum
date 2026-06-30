@@ -21,6 +21,7 @@ sealed class CalculatorUiAction {
     data object Evaluate : CalculatorUiAction()
     data object CopyResult : CalculatorUiAction()
     data class DeleteHistoryEntry(val id: Long) : CalculatorUiAction()
+    data class RestoreHistoryEntry(val id: Long) : CalculatorUiAction()
     data object ClearHistory : CalculatorUiAction()
 }
 

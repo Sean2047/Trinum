@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -39,6 +40,7 @@ import dev.trinum.app.domain.model.SavedTable
 import dev.trinum.app.feature.table.TableViewModel
 
 private val CELL_HEIGHT = 48.dp
+private val INDEX_WIDTH = 24.dp
 
 @Composable
 fun TableScreen(viewModel: TableViewModel = hiltViewModel()) {
@@ -104,8 +106,15 @@ private fun CellGrid(
     modifier: Modifier = Modifier,
 ) {
     Column(modifier = modifier.fillMaxWidth()) {
+        Row(modifier = Modifier.fillMaxWidth()) {
+            HeaderCell(text = "", modifier = Modifier.width(INDEX_WIDTH))
+            for (col in 0 until uiState.columns) {
+                HeaderCell(text = ('A' + col).toString(), modifier = Modifier.weight(1f))
+            }
+        }
         for (row in 0 until uiState.rows) {
             Row(modifier = Modifier.fillMaxWidth()) {
+                HeaderCell(text = (row + 1).toString(), modifier = Modifier.width(INDEX_WIDTH))
                 for (col in 0 until uiState.columns) {
                     val coords = row to col
                     CellBox(
@@ -117,6 +126,18 @@ private fun CellGrid(
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun HeaderCell(text: String, modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .height(CELL_HEIGHT)
+            .background(MaterialTheme.colorScheme.surfaceVariant),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(text = text, style = MaterialTheme.typography.labelSmall)
     }
 }
 
