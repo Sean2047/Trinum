@@ -29,8 +29,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.text.AnnotatedString
+import android.content.ClipData
+import androidx.compose.ui.platform.ClipEntry
+import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -42,12 +43,12 @@ import dev.trinum.app.feature.converter.ConverterViewModel
 @Composable
 fun ConverterScreen(viewModel: ConverterViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
-    val clipboardManager = LocalClipboardManager.current
+    val clipboard = LocalClipboard.current
     LaunchedEffect(viewModel.effects) {
         viewModel.effects.collect { effect ->
             when (effect) {
                 is ConverterUiEffect.CopyToClipboard ->
-                    clipboardManager.setText(AnnotatedString(effect.text))
+                    clipboard.setClipEntry(ClipEntry(ClipData.newPlainText(null, effect.text)))
             }
         }
     }

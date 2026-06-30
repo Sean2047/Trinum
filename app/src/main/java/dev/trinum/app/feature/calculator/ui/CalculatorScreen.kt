@@ -29,10 +29,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalClipboardManager
+import android.content.ClipData
+import androidx.compose.ui.platform.ClipEntry
+import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -53,13 +54,13 @@ private val keyRows = listOf(
 fun CalculatorScreen(viewModel: CalculatorViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
-    val clipboardManager = LocalClipboardManager.current
+    val clipboard = LocalClipboard.current
 
     LaunchedEffect(viewModel.effects) {
         viewModel.effects.collect { effect ->
             when (effect) {
                 is CalculatorUiEffect.CopyToClipboard ->
-                    clipboardManager.setText(AnnotatedString(effect.text))
+                    clipboard.setClipEntry(ClipEntry(ClipData.newPlainText(null, effect.text)))
                 CalculatorUiEffect.ShowClearHistoryConfirmation ->
                     snackbarHostState.showSnackbar("History cleared")
             }

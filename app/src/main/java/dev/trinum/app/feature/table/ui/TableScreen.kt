@@ -29,8 +29,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalClipboardManager
-import androidx.compose.ui.text.AnnotatedString
+import android.content.ClipData
+import androidx.compose.ui.platform.ClipEntry
+import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -43,7 +44,7 @@ private val CELL_HEIGHT = 48.dp
 fun TableScreen(viewModel: TableViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
-    val clipboardManager = LocalClipboardManager.current
+    val clipboard = LocalClipboard.current
     LaunchedEffect(viewModel.effects) {
         viewModel.effects.collect { effect ->
             when (effect) {
@@ -52,7 +53,7 @@ fun TableScreen(viewModel: TableViewModel = hiltViewModel()) {
                 is TableUiEffect.ShowError ->
                     snackbarHostState.showSnackbar(effect.message)
                 is TableUiEffect.CopyToClipboard ->
-                    clipboardManager.setText(AnnotatedString(effect.text))
+                    clipboard.setClipEntry(ClipEntry(ClipData.newPlainText(null, effect.text)))
             }
         }
     }
