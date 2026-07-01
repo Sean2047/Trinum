@@ -2,7 +2,7 @@
 Last updated: 2026-06-30 | Current Sprint: 4
 
 ## Current Status
-Next Task: TASK-008 — Table Copy Cell (TD-003 resolution)
+Next Task: Sprint 4 planning — TASK-008 APPROVED
 Blockers: None
 Note: Sprint 1 records (TASK-001/002/003 progress, file registry, review history) archived to WorkStatus_Archive.md (P9 compliance, 2026-06-30)
 
@@ -13,7 +13,7 @@ Note: Sprint 1 records (TASK-001/002/003 progress, file registry, review history
 | TASK-005 | Navigation Integration + Sprint Review | Done | 2026-06-28 | 2026-06-29 |
 | TASK-006 | Table Grid Headers | Done | 2026-06-30 | 2026-06-30 |
 | TASK-007 | Calculator Restore-From-History | Done | 2026-06-30 | 2026-06-30 |
-| TASK-008 | Table Copy Cell (TD-003) | Pending | 2026-06-30 | 2026-06-30 |
+| TASK-008 | Table Copy Cell (TD-003) | Done | 2026-06-30 | 2026-06-30 |
 
 ## File Registry (Sprint 2+ active — TASK-004+)
 | Path | Owning Task | Status | Date |
@@ -21,6 +21,7 @@ Note: Sprint 1 records (TASK-001/002/003 progress, file registry, review history
 | docs/tasks/TASK-004-table-calculator.md | TASK-004 | Created | 2026-06-29 |
 | docs/tasks/TASK-008-table-copy-cell.md | TASK-008 | Created | 2026-06-30 |
 | app/src/main/java/dev/trinum/app/feature/table/EvaluateTableUseCase.kt | TASK-004 | Created | 2026-06-29 |
+| app/src/main/java/dev/trinum/app/feature/table/EvaluateTableUseCase.kt | TASK-008 | Modified | 2026-06-30 |
 | app/src/main/java/dev/trinum/app/feature/table/TableViewModel.kt | TASK-004 | Created | 2026-06-29 |
 | app/src/main/java/dev/trinum/app/feature/table/ui/TableScreen.kt | TASK-004 | Created | 2026-06-29 |
 | app/src/test/java/dev/trinum/app/feature/table/EvaluateTableUseCaseTest.kt | TASK-004 | Created | 2026-06-29 |
@@ -40,6 +41,11 @@ Note: Sprint 1 records (TASK-001/002/003 progress, file registry, review history
 | app/src/main/java/dev/trinum/app/feature/calculator/CalculatorViewModel.kt | TASK-007 | Modified | 2026-06-30 |
 | app/src/main/java/dev/trinum/app/feature/calculator/ui/CalculatorScreen.kt | TASK-007 | Modified | 2026-06-30 |
 | app/src/test/java/dev/trinum/app/feature/calculator/CalculatorViewModelTest.kt | TASK-007 | Modified | 2026-06-30 |
+| app/src/main/java/dev/trinum/app/feature/table/ui/TableUiContracts.kt | TASK-008 | Modified | 2026-06-30 |
+| app/src/main/java/dev/trinum/app/feature/table/TableViewModel.kt | TASK-008 | Modified | 2026-06-30 |
+| app/src/main/java/dev/trinum/app/feature/table/ui/TableScreen.kt | TASK-008 | Modified | 2026-06-30 |
+| app/src/test/java/dev/trinum/app/feature/table/TableViewModelTest.kt | TASK-008 | Modified | 2026-06-30 |
+| app/src/androidTest/java/dev/trinum/app/feature/table/ui/TableScreenTest.kt | TASK-008 | Modified | 2026-06-30 |
 
 ## DAO Addition Log
 | Method Signature | DAO | Source Task | Date |
@@ -82,7 +88,7 @@ Note: Sprint 1 records (TASK-001/002/003 progress, file registry, review history
 | ----- | ---- | ----------- | ------ | ---------- | ------------- | ------ |
 | TD-001 | DEPRECATION | KSP 2.2.10-2.0.2 uses kotlin.sourceSets (banned by AGP 9); suppressed via gradle.properties. Upgrade to KSP 2.3.x to remove workaround | Build warning | TASK-001 | Sprint 2 | Closed 2026-06-29 |
 | TD-002 | INVARIANT_TENSION | EvaluateAll in TableViewModel replaces formula content with numeric result while isFormula=true is preserved, creating INV-004 inconsistency in-memory; persisted if user saves after evaluation | Data integrity risk | TASK-004 | Sprint 2 | Closed 2026-06-29 |
-| TD-003 | DEAD_CODE | TableUiEffect.CopyToClipboard is wired in TableScreen but TableViewModel never sends it; no CopyCell action exists | Dead UX path | TASK-004 | Sprint 4 | Open |
+| TD-003 | DEAD_CODE | TableUiEffect.CopyToClipboard is wired in TableScreen but TableViewModel never sends it; no CopyCell action exists | Dead UX path | TASK-008 | Sprint 4 | Closed 2026-06-30 |
 
 ## Verified Assumptions
 | Assumption | Status | Source | Verified Sprint |
@@ -106,6 +112,7 @@ Note: Sprint 1 records (TASK-001/002/003 progress, file registry, review history
 | TASK-005 | 2026-06-29 | CI PASS — ./gradlew test detekt ktlintCheck lint | Done |
 | TASK-006 | 2026-06-30 | CI PASS — ./gradlew test detekt ktlintCheck lint | Done |
 | TASK-007 | 2026-06-30 | CI PASS — ./gradlew test detekt ktlintCheck lint | Done |
+| TASK-008 | 2026-06-30 | CI PASS — ./gradlew :app:testDebugUnitTest detekt ktlintCheck :app:lintDebug | Done |
 
 ## Review Log
 | Task ID | Review Time | Result | Issues | Reviewer |
@@ -114,6 +121,7 @@ Note: Sprint 1 records (TASK-001/002/003 progress, file registry, review history
 | TASK-005 | 2026-06-29 | APPROVED (Round 2) | R4 fixed: assertIsSelected() on merged semantics node | Reviewer Agent |
 | TASK-006 | 2026-06-30 | APPROVED | Non-blocking: File Registry missing TASK-006 Modified entries (fixed) | Reviewer Agent |
 | TASK-007 | 2026-06-30 | APPROVED | Non-blocking: File Registry missing TASK-007 Modified entries (fixed) | Reviewer Agent |
+| TASK-008 | 2026-06-30 | APPROVED (Round 3) | R2: 10 findings fixed CI PASS; R3: 10 findings fixed CI PASS — loadTable null→ShowError+preserve; collectAsStateWithLifecycle; ERROR_VALUE shared const; displayCells computed val; loadJob cancel; launch+send restored; formula-copy ShowError feedback | Reviewer Agent |
 
 ## Evidence Budget Log
 | Task ID | Context Est. | Over Budget | Action |
@@ -133,3 +141,9 @@ Note: Sprint 1 records (TASK-001/002/003 progress, file registry, review history
 | 2026-06-29 | Deprecation fix | LocalClipboardManager→LocalClipboard in CalculatorScreen, ConverterScreen, TableScreen; setText(AnnotatedString)→setClipEntry(ClipEntry(ClipData.newPlainText)); zero compiler warnings |
 | 2026-06-30 | TASK-006 | HeaderCell composable added; CellGrid gains header row (A–E) + row index column (1–5); column_and_row_headers_are_displayed test added to TableScreenTest |
 | 2026-06-30 | TASK-007 | RestoreHistoryEntry(id) action added to CalculatorUiAction; restoreEntry() in CalculatorViewModel reads from uiState.value.history; HistoryItem made clickable; restore test added to CalculatorViewModelTest; TD-003 logged |
+| 2026-06-30 | TASK-008 | CopyCell added to TableUiAction; copyCell() in TableViewModel resolves evaluatedResults??content and sends CopyToClipboard effect; Copy OutlinedButton (enabled when cell selected) added to TableActionRow; 3 Turbine effect tests added; TD-003 closed |
+| 2026-06-30 | TASK-008 review fixes | 10 findings resolved: copyCell() isFormula-aware (bug#1); loadTable() sync-clears selectedCell before launch (bug#2); isCopyEnabled computed prop on TableUiState; TableActionRow Pair→Boolean + "Eval" label; 4 new VM tests (non-formula raw content, blank no-op, never-edited no-op, evaluate-test timing); Copy assertion + enabled/disabled tests in TableScreenTest |
+| 2026-06-30 | TASK-008 re-review | NEEDS FIXES — 10 findings confirmed (8 Phase-1 angles + 6 verifiers): CellGrid evaluatedResults??content must apply isFormula guard; loadTable null-return leaves stale LocalState; isEmpty→isBlank revert needed; ERR sentinel guard required; unevaluated formula needs test+decision; screen test needs performClick dispatch assertion; isCopyEnabled+copyCell DRY; sync pre-clear should move inside coroutine; actions-before-effects.test refactor; trySend for non-blocking Channel.BUFFERED send |
+| 2026-06-30 | TASK-008 re-review fixes | All 10 findings resolved: CellGrid isFormula guard added (F1); loadTable null→LocalState() reset (F2); resolvedCopyText() DRY helper + isNotBlank (F3/F7); ERR sentinel blocks Copy via resolvedCopyText (F4); unevaluated formula blocks Copy (F5); copy_button_click_dispatches_CopyCell_action test added (F6); isCopyEnabled moved to ViewModel combine block (F7); sync pre-clear retained for race protection, null-return fixed (F8); EvaluateAll moved inside effects.test{} (F9); trySend replaces launch+send in copyCell+evaluateAll (F10); 2 new VM tests (unevaluated formula no-op, ERR no-op) |
+| 2026-06-30 | TASK-008 R3 re-review | 10 findings (8 CONFIRMED, 2 PLAUSIBLE): loadTable null data loss; TOCTOU copyCell stale-frame silent; collectAsState P3.1 violation; trySend-CopyToClipboard silent drop; trySend-ShowError regression; CellGrid/resolvedCopyText diverge on ERR; loadTable race+flash; null branch untested; ERR_VALUE unshared; isCopyEnabled stale-on-copy |
+| 2026-06-30 | TASK-008 R3 fixes | All 10 fixed: loadTable null→ShowError+preserve state; copyCell emits ShowError for unevaluated/ERR formula; collectAsStateWithLifecycle+lifecycle-runtime-compose dep; launch+send for CopyToClipboard+evaluateAll failure; displayCells computed val on TableUiState (eliminates CellGrid duplication); loadJob?.cancel() prevents load race; loadTable null branch test; EvaluateTableUseCase.ERROR_VALUE shared; CI PASS (70+ tests, 0 failures) |

@@ -66,12 +66,13 @@ class EvaluateTableUseCase @Inject constructor() {
     }
 
     private fun formatValue(value: Double): String {
-        if (!value.isFinite()) return "ERR"
+        if (!value.isFinite()) return ERROR_VALUE
         return if (value == floor(value)) value.toLong().toString()
         else "%.8f".format(value).trimEnd('0').trimEnd('.')
     }
 
-    private companion object {
+    companion object {
+        internal const val ERROR_VALUE = "ERR"
         private const val ALPHABET_SIZE = 26
         private val CELL_REF_REGEX = Regex("([A-Z]+)(\\d+)")
     }

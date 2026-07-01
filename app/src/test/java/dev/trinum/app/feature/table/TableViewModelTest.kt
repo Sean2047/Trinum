@@ -190,6 +190,129 @@ class TableViewModelTest {
         vm.onAction(TableUiAction.DeleteTable(tableId = 1L))
         assertEquals(1L, repo.deletedTableId)
     }
+
+    @Test
+    fun `copy cell sends CopyToClipboard effect with raw content`() = runTest {
+        val vm = createVm()
+        vm.onAction(TableUiAction.UpdateCellContent(row = 0, column = 0, content = "hello"))
+        vm.onAction(TableUiAction.SelectCell(row = 0, column = 0))
+        vm.effects.test {
+            vm.onAction(TableUiAction.CopyCell)
+            val effect = awaitItem()
+            assertTrue(effect is TableUiEffect.CopyToClipboard)
+            assertEquals("hello", (effect as TableUiEffect.CopyToClipboard).text)
+            cancelAndConsumeRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `copy cell after evaluate sends CopyToClipboard effect with evaluated result`() = runTest {
+        val vm = createVm()
+        vm.effects.test {
+            vm.onAction(TableUiAction.UpdateCellContent(row = 0, column = 0, content = "10"))
+            vm.onAction(TableUiAction.UpdateCellContent(row = 0, column = 1, content = "20"))
+            vm.onAction(TableUiAction.UpdateCellContent(row = 0, column = 2, content = "=A1+B1"))
+            vm.onAction(TableUiAction.EvaluateAll)
+            vm.onAction(TableUiAction.SelectCell(row = 0, column = 2))
+            vm.onAction(TableUiAction.CopyCell)
+            val effect = awaitItem()
+            assertTrue(effect is TableUiEffect.CopyToClipboard)
+            assertEquals("30", (effect as TableUiEffect.CopyToClipboard).text)
+            cancelAndConsumeRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `copy cell with no selected cell is a no-op`() = runTest {
+        val vm = createVm()
+        vm.effects.test {
+            vm.onAction(TableUiAction.CopyCell)
+            expectNoEvents()
+            cancelAndConsumeRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `copy cell with selected but never-edited cell is a no-op`() = runTest {
+        val vm = createVm()
+        vm.onAction(TableUiAction.SelectCell(row = 0, column = 0))
+        vm.effects.test {
+            vm.onAction(TableUiAction.CopyCell)
+            expectNoEvents()
+            cancelAndConsumeRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `copy cell with empty content is a no-op`() = runTest {
+        val vm = createVm()
+        vm.onAction(TableUiAction.UpdateCellContent(row = 0, column = 0, content = ""))
+        vm.onAction(TableUiAction.SelectCell(row = 0, column = 0))
+        vm.effects.test {
+            vm.onAction(TableUiAction.CopyCell)
+            expectNoEvents()
+            cancelAndConsumeRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `copy cell uses raw content not evaluated result for non-formula cells`() = runTest {
+        val vm = createVm()
+        vm.effects.test {
+            vm.onAction(TableUiAction.UpdateCellContent(row = 0, column = 0, content = "Revenue"))
+            vm.onAction(TableUiAction.EvaluateAll)
+            vm.onAction(TableUiAction.SelectCell(row = 0, column = 0))
+            vm.onAction(TableUiAction.CopyCell)
+            val effect = awaitItem()
+            assertTrue(effect is TableUiEffect.CopyToClipboard)
+            assertEquals("Revenue", (effect as TableUiEffect.CopyToClipboard).text)
+            cancelAndConsumeRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `copy cell with unevaluated formula emits ShowError`() = runTest {
+        val vm = createVm()
+        vm.onAction(TableUiAction.UpdateCellContent(row = 0, column = 0, content = "=A1+B1"))
+        vm.onAction(TableUiAction.SelectCell(row = 0, column = 0))
+        vm.effects.test {
+            vm.onAction(TableUiAction.CopyCell)
+            val effect = awaitItem()
+            assertTrue(effect is TableUiEffect.ShowError)
+            cancelAndConsumeRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `copy cell with ERR result emits ShowError`() = runTest {
+        val vm = createVm()
+        // log(0) = -Infinity via Java Math (syntactically valid, no exp4j throw) → formatValue → "ERR"
+        vm.onAction(TableUiAction.UpdateCellContent(row = 0, column = 0, content = "=log(0)"))
+        vm.onAction(TableUiAction.EvaluateAll)
+        vm.onAction(TableUiAction.SelectCell(row = 0, column = 0))
+        vm.effects.test {
+            vm.onAction(TableUiAction.CopyCell)
+            val effect = awaitItem()
+            assertTrue(effect is TableUiEffect.ShowError)
+            cancelAndConsumeRemainingEvents()
+        }
+    }
+
+    @Test
+    fun `load table with unknown id emits ShowError and preserves current state`() = runTest {
+        val vm = createVm()
+        vm.onAction(TableUiAction.UpdateCellContent(row = 0, column = 0, content = "preserved"))
+        vm.effects.test {
+            vm.onAction(TableUiAction.LoadTable(tableId = 999L))
+            val effect = awaitItem()
+            assertTrue(effect is TableUiEffect.ShowError)
+            cancelAndConsumeRemainingEvents()
+        }
+        vm.uiState.test {
+            assertEquals("preserved", awaitItem().cells[0 to 0]?.content)
+            cancelAndConsumeRemainingEvents()
+        }
+    }
 }
 
 private class FakeTableRepository : TableRepository {

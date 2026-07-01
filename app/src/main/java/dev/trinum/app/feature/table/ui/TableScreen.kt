@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -25,9 +26,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import android.content.ClipData
@@ -44,7 +45,7 @@ private val INDEX_WIDTH = 24.dp
 
 @Composable
 fun TableScreen(viewModel: TableViewModel = hiltViewModel()) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
     val clipboard = LocalClipboard.current
     LaunchedEffect(viewModel.effects) {
@@ -85,7 +86,11 @@ internal fun TableContent(
             Spacer(Modifier.height(8.dp))
             CellGrid(uiState = uiState, onCellTap = { r, c -> onAction(TableUiAction.SelectCell(r, c)) })
             Spacer(Modifier.height(8.dp))
-            TableActionRow(onAction = onAction, modifier = Modifier.fillMaxWidth())
+            TableActionRow(
+                onAction = onAction,
+                isCopyEnabled = uiState.isCopyEnabled,
+                modifier = Modifier.fillMaxWidth(),
+            )
             if (uiState.savedTables.isNotEmpty()) {
                 Spacer(Modifier.height(8.dp))
                 SavedTablesList(
@@ -118,7 +123,7 @@ private fun CellGrid(
                 for (col in 0 until uiState.columns) {
                     val coords = row to col
                     CellBox(
-                        content = uiState.evaluatedResults[coords] ?: uiState.cells[coords]?.content ?: "",
+                        content = uiState.displayCells[coords] ?: "",
                         isSelected = uiState.selectedCell == coords,
                         onClick = { onCellTap(row, col) },
                         modifier = Modifier.weight(1f),
@@ -183,16 +188,27 @@ private fun CellEditBar(
 }
 
 @Composable
-private fun TableActionRow(onAction: (TableUiAction) -> Unit, modifier: Modifier = Modifier) {
+private fun TableActionRow(
+    onAction: (TableUiAction) -> Unit,
+    isCopyEnabled: Boolean,
+    modifier: Modifier = Modifier,
+) {
     Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         Button(onClick = { onAction(TableUiAction.EvaluateAll) }, modifier = Modifier.weight(1f)) {
-            Text("Evaluate")
+            Text("Eval")
         }
         Button(onClick = { onAction(TableUiAction.SaveTable) }, modifier = Modifier.weight(1f)) {
             Text("Save")
         }
         Button(onClick = { onAction(TableUiAction.NewTable) }, modifier = Modifier.weight(1f)) {
             Text("New")
+        }
+        OutlinedButton(
+            onClick = { onAction(TableUiAction.CopyCell) },
+            enabled = isCopyEnabled,
+            modifier = Modifier.weight(1f),
+        ) {
+            Text("Copy")
         }
     }
 }

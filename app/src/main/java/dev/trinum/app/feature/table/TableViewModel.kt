@@ -11,6 +11,7 @@ import dev.trinum.app.feature.table.ui.TableUiAction
 import dev.trinum.app.feature.table.ui.TableUiEffect
 import dev.trinum.app.feature.table.ui.TableUiIntent
 import dev.trinum.app.feature.table.ui.TableUiState
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -42,6 +43,7 @@ class TableViewModel @Inject constructor(
     private val _localState = MutableStateFlow(LocalState())
     private val _effects = Channel<TableUiEffect>(Channel.BUFFERED)
     val effects = _effects.receiveAsFlow()
+    private var loadJob: Job? = null
 
     val uiState: StateFlow<TableUiState> = combine(
         _localState,
@@ -56,6 +58,11 @@ class TableViewModel @Inject constructor(
             currentTableId = local.currentTableId,
             currentTableName = local.currentTableName,
             evaluatedResults = local.evaluatedResults,
+            isCopyEnabled = local.selectedCell?.let { coords ->
+                local.cells[coords]?.let { cell ->
+                    resolvedCopyText(cell, coords, local.evaluatedResults) != null
+                }
+            } ?: false,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000L), TableUiState())
 
@@ -69,6 +76,7 @@ class TableViewModel @Inject constructor(
             is TableUiAction.LoadTable -> loadTable(action.tableId)
             is TableUiAction.DeleteTable -> deleteTable(action.tableId)
             TableUiAction.NewTable -> newTable()
+            TableUiAction.CopyCell -> copyCell()
         }
     }
 
@@ -126,9 +134,13 @@ class TableViewModel @Inject constructor(
     }
 
     private fun loadTable(tableId: Long) {
-        viewModelScope.launch {
-            tableRepository.getTableState(tableId)?.let { tableState ->
+        loadJob?.cancel()
+        loadJob = viewModelScope.launch {
+            val tableState = tableRepository.getTableState(tableId)
+            if (tableState != null) {
                 _localState.update { buildLocalState(tableState) }
+            } else {
+                _effects.send(TableUiEffect.ShowError("Table not found"))
             }
         }
     }
@@ -141,7 +153,31 @@ class TableViewModel @Inject constructor(
         _localState.update { LocalState() }
     }
 
+    private fun copyCell() {
+        val state = _localState.value
+        val coords = state.selectedCell ?: return
+        val cell = state.cells[coords] ?: return
+        val text = resolvedCopyText(cell, coords, state.evaluatedResults)
+        viewModelScope.launch {
+            if (text != null) {
+                _effects.send(TableUiEffect.CopyToClipboard(text))
+            } else if (cell.isFormula) {
+                _effects.send(TableUiEffect.ShowError("Evaluate formulas before copying"))
+            }
+        }
+    }
+
     companion object {
+        private fun resolvedCopyText(
+            cell: TableCell,
+            coords: Pair<Int, Int>,
+            evaluatedResults: Map<Pair<Int, Int>, String>,
+        ): String? = if (cell.isFormula) {
+            evaluatedResults[coords]?.takeIf { it.isNotBlank() && it != EvaluateTableUseCase.ERROR_VALUE }
+        } else {
+            cell.content.takeIf { it.isNotBlank() }
+        }
+
         private fun buildTableState(state: LocalState): TableState {
             val now = System.currentTimeMillis()
             val table = SavedTable(

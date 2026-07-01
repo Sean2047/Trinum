@@ -3,6 +3,8 @@ package dev.trinum.app.feature.table.ui
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -28,9 +30,10 @@ class TableScreenTest {
                 snackbarHostState = remember { SnackbarHostState() },
             )
         }
-        composeTestRule.onNodeWithText("Evaluate").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Eval").assertIsDisplayed()
         composeTestRule.onNodeWithText("Save").assertIsDisplayed()
         composeTestRule.onNodeWithText("New").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Copy").assertIsDisplayed()
     }
 
     @Test
@@ -74,6 +77,46 @@ class TableScreenTest {
         composeTestRule.onNodeWithText("E").assertIsDisplayed()
         composeTestRule.onNodeWithText("1").assertIsDisplayed()
         composeTestRule.onNodeWithText("5").assertIsDisplayed()
+    }
+
+    @Test
+    fun copy_button_is_not_enabled_without_selection() {
+        composeTestRule.setContent {
+            TableContent(
+                uiState = TableUiState(),
+                onAction = {},
+                snackbarHostState = remember { SnackbarHostState() },
+            )
+        }
+        composeTestRule.onNodeWithText("Copy").assertIsNotEnabled()
+    }
+
+    @Test
+    fun copy_button_is_enabled_when_cell_with_content_is_selected() {
+        val cell = TableCell(id = 0L, tableId = 0L, row = 0, column = 0, content = "hello", isFormula = false)
+        composeTestRule.setContent {
+            TableContent(
+                uiState = TableUiState(cells = mapOf((0 to 0) to cell), selectedCell = 0 to 0, isCopyEnabled = true),
+                onAction = {},
+                snackbarHostState = remember { SnackbarHostState() },
+            )
+        }
+        composeTestRule.onNodeWithText("Copy").assertIsEnabled()
+    }
+
+    @Test
+    fun copy_button_click_dispatches_CopyCell_action() {
+        val actions = mutableListOf<TableUiAction>()
+        val cell = TableCell(id = 0L, tableId = 0L, row = 0, column = 0, content = "hello", isFormula = false)
+        composeTestRule.setContent {
+            TableContent(
+                uiState = TableUiState(cells = mapOf((0 to 0) to cell), selectedCell = 0 to 0, isCopyEnabled = true),
+                onAction = { actions.add(it) },
+                snackbarHostState = remember { SnackbarHostState() },
+            )
+        }
+        composeTestRule.onNodeWithText("Copy").performClick()
+        assertTrue(actions.any { it is TableUiAction.CopyCell })
     }
 
     @Test

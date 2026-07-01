@@ -12,7 +12,14 @@ data class TableUiState(
     val currentTableId: Long? = null,
     val currentTableName: String = "",
     val evaluatedResults: Map<Pair<Int, Int>, String> = emptyMap(),
-)
+    val isCopyEnabled: Boolean = false,
+) {
+    val displayCells: Map<Pair<Int, Int>, String>
+        get() = cells.mapValues { (coords, cell) ->
+            if (cell.isFormula) evaluatedResults[coords] ?: cell.content
+            else cell.content
+        }
+}
 
 sealed class TableUiEffect {
     data class ShowSaveSuccess(val tableName: String) : TableUiEffect()
@@ -29,6 +36,7 @@ sealed class TableUiAction {
     data class LoadTable(val tableId: Long) : TableUiAction()
     data class DeleteTable(val tableId: Long) : TableUiAction()
     data object NewTable : TableUiAction()
+    data object CopyCell : TableUiAction()
 }
 
 data class TableUiIntent(
